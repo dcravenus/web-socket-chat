@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+  </head>
+  <style>
+    ul {
+      border-style: solid;
+      padding-left: 0;
+    }
+    li {
+      font-family: sans-serif;
+      list-style-type: none;
+      padding-left: 10px;
+      padding-top: 4px;
+      padding-bottom: 5px;
+      font-size: 24px;
+    }
+    li:nth-child(even) {
+      background-color: lightgray;
+    }
+  </style>
+  <body>
+    <ul id="messages"></ul>
+    <input id="m" autocomplete="off" /><button>Send</button>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      document.querySelector('button').addEventListener('click', ()=>{
+        socket.emit('chat message', document.querySelector('input').value);
+      });
+
+      socket.on('chat message', (msg)=>{
+        const node = document.createElement('li');
+        node.appendChild(document.createTextNode(msg));
+        document.getElementById('messages').appendChild(node);
+      });
+    </script>
+  </body>
+</html>
